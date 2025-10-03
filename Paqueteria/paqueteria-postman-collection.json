@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "Paqueteria API",
+    "_postman_id": "paqueteria-collection",
+    "description": "Colección básica para probar la API de paquetería",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Listar Clientes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "http://localhost:8080/api/clientes", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api","clientes"] }
+      }
+    },
+    {
+      "name": "Crear Cliente",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"nombre\": \"Juan Pérez\",\n  \"direccion\": \"Calle 1\",\n  \"telefono\": \"555-1234\",\n  \"email\": \"juan@example.com\"\n}"},
+        "url": { "raw": "http://localhost:8080/api/clientes", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api","clientes"] }
+      }
+    },
+    {
+      "name": "Crear Paquete",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"descripcion\": \"Documento urgente\",\n  \"peso\": 0.5,\n  \"destino\": \"Ciudad X\",\n  \"estado\": \"Pendiente\"\n}"},
+        "url": { "raw": "http://localhost:8080/api/paquetes", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api","paquetes"] }
+      }
+    },
+    {
+      "name": "Crear Envío",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"cliente\": { \"id\": 1 },\n  \"paquete\": { \"id\": 1 },\n  \"costo\": 25.0\n}"},
+        "url": { "raw": "http://localhost:8080/api/envios", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api","envios"] }
+      }
+    }
+  ]
+}
