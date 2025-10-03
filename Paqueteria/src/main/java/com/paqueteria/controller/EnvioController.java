@@ -53,22 +53,37 @@ public class EnvioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Envio envio) {
-        return repo.findById(id).map(existing -> {
-            if (envio.getCliente() != null && envio.getCliente().getId() != null) {
-                Cliente c = clienteRepo.findById(envio.getCliente().getId()).orElse(null);
-                if (c == null) return ResponseEntity.badRequest().body("cliente no encontrado");
-                existing.setCliente(c);
+        Envio existing = repo.findById(id).orElse(null);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (envio.getCliente() != null && envio.getCliente().getId() != null) {
+            Cliente c = clienteRepo.findById(envio.getCliente().getId()).orElse(null);
+            if (c == null) {
+                return ResponseEntity.badRequest().body("cliente no encontrado");
             }
-            if (envio.getPaquete() != null && envio.getPaquete().getId() != null) {
-                Paquete p = paqueteRepo.findById(envio.getPaquete().getId()).orElse(null);
-                if (p == null) return ResponseEntity.badRequest().body("paquete no encontrado");
-                existing.setPaquete(p);
+            existing.setCliente(c);
+        }
+
+        if (envio.getPaquete() != null && envio.getPaquete().getId() != null) {
+            Paquete p = paqueteRepo.findById(envio.getPaquete().getId()).orElse(null);
+            if (p == null) {
+                return ResponseEntity.badRequest().body("paquete no encontrado");
             }
-            existing.setFechaRegistro(envio.getFechaRegistro() != null ? envio.getFechaRegistro() : existing.getFechaRegistro());
+            existing.setPaquete(p);
+        }
+
+        if (envio.getFechaRegistro() != null) {
+            existing.setFechaRegistro(envio.getFechaRegistro());
+        }
+
+        if (envio.getCosto() != null) {
             existing.setCosto(envio.getCosto());
-            repo.save(existing);
-            return ResponseEntity.ok(existing);
-        }).orElse(ResponseEntity.notFound().build());
+        }
+
+        Envio saved = repo.save(existing);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")

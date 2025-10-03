@@ -5,7 +5,7 @@ Proyecto de ejemplo para gestionar clientes, paquetes y envíos usando Spring Bo
 Requisitos
 - Java 17+
 - Maven
-- MySQL (base de datos `paqueteria`)
+- (Opcional) MySQL si deseas usar la base de datos externa
 
 Nota: Si `mvn` no está instalado en tu máquina, instala Maven o usa tu IDE (IntelliJ/Eclipse) para importar el proyecto como Maven.
 
@@ -21,15 +21,15 @@ GRANT ALL PRIVILEGES ON paqueteria.* TO 'default'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-2. El archivo `src/main/resources/application.properties` está configurado con:
+2. Por defecto el proyecto usa una base de datos en memoria H2 para facilitar la ejecución sin dependencias externas.
 
-- host: localhost
-- puerto: 3306
-- base de datos: paqueteria
-- usuario: `default`
-- contraseña: `m@teo123`
+Si prefieres conectar un MySQL local, crea la base de datos y ejecuta con el perfil `mysql`:
 
-Si usas otro usuario/contraseña, actualiza `application.properties`.
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+```
+
+El archivo `src/main/resources/application-mysql.properties` contiene la configuración por defecto (host `localhost`, base `paqueteria`, usuario `default`, contraseña `m@teo123`). Ajusta esos valores si necesitas otras credenciales.
 
 Construir y ejecutar
 
